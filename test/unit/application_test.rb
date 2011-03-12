@@ -25,8 +25,8 @@ class ApplicationTest < ActiveSupport::TestCase
 
   test 'should generate a new client id and client secret on create' do
     app = Application.create(@attributes)
-    app.client_id.wont_be nil
-    app.client_secret.wont_be nil
+    refute_nil app.client_id
+    refute_nil app.client_secret
   end
 
   test 'should not allow the client id or secret to be modified' do
