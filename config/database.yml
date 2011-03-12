@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: clearance-oauth-provider-example_development
+  pool: 5
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: clearance-oauth-provider-example_test
+  pool: 5
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: clearance-oauth-provider-example_production
+  pool: 5
