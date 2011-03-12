@@ -9,5 +9,7 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  def login user=nil
+    @controller.current_user = user ||= Factory.create(:user)
+  end
 end

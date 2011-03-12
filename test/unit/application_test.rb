@@ -8,8 +8,6 @@ class ApplicationTest < ActiveSupport::TestCase
     @attributes = {
       url: 'http://clienturl.com',
       redirect_uri: 'http://clienturl.com/auth/callback',
-      client_secret: 'abc123',
-      client_id: 'anid',
       user: u
     }
   end
@@ -18,10 +16,27 @@ class ApplicationTest < ActiveSupport::TestCase
     assert Application.new(@attributes).save
   end
 
-  [:url, :redirect_uri, :client_secret, :client_id, :user].each do |attribute|
+  [:url, :redirect_uri, :user].each do |attribute|
     test "should fail to create an application missing #{attribute}" do
       @attributes.delete attribute
       refute Application.new(@attributes).save
     end
+  end
+
+  test 'should generate a new client id and client secret on create' do
+    app = Application.create(@attributes)
+    app.client_id.wont_be nil
+    app.client_secret.wont_be nil
+  end
+
+  test 'should not allow the client id or secret to be modified' do
+    app = Factory.create :application
+    id = app.client_id
+    secret = app.client_secret
+    app.client_id = 'somethingnew'
+    app.client_secret = 'somenewsecret'
+    app.save!
+    assert_equal app.client_id, id
+    assert_equal app.client_secret, secret
   end
 end
